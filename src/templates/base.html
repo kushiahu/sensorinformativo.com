@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock title %}</title>
+  {% block organic %}{% endblock organic %}
+  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}">
+	{% block css %}{% endblock css %}
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+  <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
+</head>
+<body>
+  {% block content %}{% endblock content %}
+</body>
+</html>
