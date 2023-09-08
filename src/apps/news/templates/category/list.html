@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Categorias{% endblock title %}
+
+{% block content %}
+<main class="news__dtl">
+  <div class="container">
+    <section class="panel matchHeight">
+      <div class="pnl__hdr">
+        <p class="pnl__hdr__info">Hay {{ categories.count }} categorías</p>
+        <p class="pnl__hdr__btn"><a href="{% url 'news:create_category' %}" class="btn">Crear Categoría</a></p>
+      </div>
+      <div class="pnl__table">
+        <table class="tbl__rd__gral">
+          <thead>
+            <tr><th colspan="2">Categorías</th></tr>
+          </thead>
+          <tbody>
+          {% for category in categories %}            
+            <tr>
+              <td class="organisation__cat">{{ category.name }}</td>
+              <td class="actions__gral_one">
+                <a href="{% url 'news:update_category' category.slug %}" class="tbl__actions">Editar</a> | 
+                <a href="{% url 'news:delete_category' category.slug %}" class="tbl__actions">Eliminar</a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock content %}

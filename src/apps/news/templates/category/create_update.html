@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Gestión de Categoría{% endblock title %}
+
+{% block content %}
+<main class="news__dtl">
+  <div class="container">
+    <section class="gral__forms matchHeight">
+      <h1>Gestión de Categoría</h1>
+      <form method="post" class="form__gral">
+        {% csrf_token %}
+        <div class="field">
+          {{ form.name.label_tag }}
+          {{ form.name }}
+          {{ form.name.errors }}
+        </div>
+        <div class="field">
+          <button type="submit" class="btn">Guardar</button>
+          <a href="{% url 'news:list_categories' %}" class="btn">Cancelar</a>
+        </div>
+      </form>
+    </section>
+  </div>
+</main> 
+{% endblock content %}

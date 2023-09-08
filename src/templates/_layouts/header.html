@@ -1,0 +1,40 @@
+{% load static %}
+<header>
+  <section class="hdr__top">
+    <div class="container">
+      <nav class="hdr__top__nav">
+        <ul class="hdr__top__list">
+          <li><a href="https://www.facebook.com/SensorInformativo" target="_blank"><span class="icon-facebook"></span></a></li>
+          <li><a href="https://www.twitter.com/SensorInformati" target="_blank"><span class="icon-twitter"></span></a></li>
+          <li><a href="https://plus.google.com/u/0/102036881259537589669/" target="_blank"><span class="icon-google-plus"></span></a></li>
+          <li><a href="https://www.youtube.com" target="_blank"><span class="icon-youtube"></span></a></li>
+        </ul>
+      </nav>
+      <nav class="hdr__top__login">
+        <ul class="hdr__top__list">
+          <li><a href="#"><i class="icon-user"></i>Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+  <section class="hdr__sensor">
+    <div class="container">
+      <section class="hdr__logo"><figure><a href="{% url 'site:index' %}"><img src="{% static 'images/logo.png' %}"></a></figure></section>
+      <section class="hdr__sponsor">
+        <div id="hdr__sponsor">
+          <div>
+            <a href="#">
+              <img src="{% static 'images/pc.png' %}" alt="Imagen: Tu espacio de publicidad">
+            </a>
+          </div> 
+        </div>
+      </section>
+      <section class="hdr__weather">
+        <p class="hdr__wi"><i class="wi"></i></p>
+        <p>Temp. 30C</p> 
+        <p>{{w.description}}</p> 
+      </section>
+    </div>
+  </section>
+  {% include '_layouts/nav.html' %}
+</header>

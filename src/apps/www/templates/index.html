@@ -4,6 +4,35 @@
 
 {% block title %}Noticias Cd. del Carmen | Sensor Informativo{% endblock title %}
 
+{% block css %}
+<link href="{% static 'css/Modal/responsive.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/noticias.css' %}" rel="stylesheet">
+{% endblock css %}
+
 {% block content %}
-<h1>Noticias Ciudad del Carmen</h1>
+<main class="index__content">
+  <div class="container">
+    <section class="gral__list matchHeight">
+      <section class="list__flex" id="infinite-container">
+      {% for news_obj in news %}
+        <article class="article-flex">
+          <img src="#" alt="{{ news_obj.slug }}">
+          <header>
+          {% if news_obj.category == 'Columna' %}
+            <p class="article__cat"><a href="{{ news_obj.cat_slug }}" target="_blank">{{ news_obj.category }}</a></p>
+            <h1 class="article__title"><a href="{% url 'news:col_dtl' news_obj.slug %}" target="_blank">{{ news_obj.title }}</a></h1>
+          {% else %}  
+            <p class="article__cat"><a href="{% url 'news:list_cat' news_obj.cat_slug %}" target="_blank">{{ news_obj.category }}</a></p>
+            <h1 class="article__title"><a href="{% url 'news:dtl' news_obj.slug %}" target="_blank">{{ news_obj.title }}</a></h1>
+          {% endif %}
+            <p class="article__author">Por: {{ news_obj.author }}</p>
+            <p class="article__date">{{ news_obj.created }}</p>
+          </header>
+        </article>
+      {% endfor %}
+      </section>
+    </section>
+    {% include '_layouts/sponsors.html' %}
+  </div>
+</main>
 {% endblock content %}
