@@ -1,0 +1,46 @@
+
+<sidebar class="main__sponsors matchHeight">
+  <h2>Mi panel ( <a href="#" class="pnl__logout">salir</a> )</h2>
+  <div class="panel__user">
+    <!-- Falta realizar un if -->
+    <figure class="pnl__user__img"><img src="#" alt="Photo: {{user.username}}" class="rounded"></figure>  
+    <p class="pnl__user__name">{{ user.first_name }} {{ user.last_name }}</p>
+    <p class="pnl__user__rol"><a href="#" style="color:#454545;">Editar Perfil</a></p>
+    <ul class="pnl__user__menu">
+    {% if user.is_superuser %}      
+      <li>
+        <a href="#">Noticias</a>
+        <a href="{% url 'news:list_categories' %}" class="pnl__menu__cat">Categorías</a>
+        <a href="{% url 'news:list_authors' %}" class="pnl__menu__cat">Autores</a>
+      </li>
+      <li><a href="#">Columnas</a></li>
+      <li>
+        <a href="#">Publicidad</a>
+        <a href="#" class="pnl__menu__cat">Empresas</a>
+      </li>
+    {% endif %}
+      <li>
+      {% if user.is_superuser %}
+      <a href="#">Clasificados</a>
+      <a href="#" class="pnl__menu__cat">Mis Clasificados</a>
+      <a href="#" class="pnl__menu__cat">Categorías</a>
+      {% else %}
+      <a href="#">Clasificados</a>
+      {% endif %}</li>
+      <li>
+        {% if user.is_superuser %}
+        <a href="#">Empleos</a>
+        <a href="#" class="pnl__menu__cat">Mis Empleos</a>
+        <a href="#" class="pnl__menu__cat">Categorías</a>
+        {% else %}
+        <a href="#">Empleos</a>
+        {% endif %}</li>
+      {% if user.is_superuser %}
+      <li><a href="#">Bandeja de Entrada</a></li>
+      <li><a href="#">Suscriptores</a></li>
+      <li><a href="#" style="color:#9E1A1A;">Eliminar por años</a></li>
+      {% endif %}
+    </ul>
+  </div>
+  <br><br><br><br>
+</sidebar>
