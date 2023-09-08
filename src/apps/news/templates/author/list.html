@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Autores{% endblock title %}
+
+{% block content %}
+<main class="news__dtl">
+  <div class="container">
+    <section class="panel matchHeight">
+      <div class="pnl__hdr">
+        <p class="pnl__hdr__info">Tienes {{ authors.count }} autores</p>
+        <p class="pnl__hdr__btn"><a href="{% url 'news:create_author' %}" class="btn">Añadir Autor</a></p>
+      </div>
+      <div class="pnl__table">
+        <table class="tbl__rd__gral">
+          <thead>
+            <tr>
+              <th>Autores</th>
+              <th>Noticias</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for author in authors %}            
+            <tr>
+              <td class="organisation__author">{{ author.first_name }} {{ author.last_name }}</td>
+              <td class="organisation__number">{{ author.news.count }}</td>
+              <td class="actions__gral_one">
+                <a href="{% url 'news:update_author' author.slug %}" class="tbl__actions">Editar</a> | 
+                <a href="{% url 'news:delete_author' author.slug %}" class="tbl__actions">Eliminar</a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock content %}

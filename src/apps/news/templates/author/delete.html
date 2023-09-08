@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Eliminar autor{% endblock title %}
+
+{% block css %}
+<link href="{% static 'css/noticias.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+<main class="news__dtl">
+  <div class="container">
+    <section class="gral__forms matchHeight">
+      <h1>Eliminar autor</h1>
+      <form method="post" class="form__gral">
+        {% csrf_token %}
+        <p>¿Estás seguro de que deseas eliminar al autor "{{ object.email }}"?</p>
+        <div class="field">
+          <button type="submit" class="btn">Eliminar</button>
+          <a href="{% url 'news:list_authors' %}" class="btn">Cancelar</a>
+        </div>
+      </form>
+    </section>
+  </div>
+</main>
+{% endblock %}

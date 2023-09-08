@@ -28,7 +28,7 @@ class Author(models.Model):
 		return f'{self.first_name} {self.larst_name}'
 
 	def save(self, *args, **kwargs):
-		self.slug = slugify(f'{self.first_name} {self.larst_name}')
+		self.slug = slugify(f'{self.first_name} {self.last_name}')
 		super(Author, self).save(*args, **kwargs)
 
 
