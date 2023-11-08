@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{{ news.title }} | Sensor Informativo{% endblock title %}
+
+{% block organic %}
+  <meta property="og:site_name" content="Sensor Informativo: Su radar informativo"/>
+  <meta property="og:title" content="{{ news.title }}" />
+  <meta property="og:url" content="{% url 'news:detail_news' news.slug %}" />
+  <meta property="og:description" content="{{ news.body|safe|striptags }}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:locale" content="es_MX" />
+{% if news.name_img %}
+  <meta property="og:image" content="/media/wimg/{{ news.name_img }}">
+  <meta property="og:image:url" content="/media/wimg/{{ news.name_img }}">
+  <meta property="og:image:secure_url" content="/media/wimg/{{ news.name_img }}">
+{% else %}
+  <meta property="og:image" content="{{ news.gallery.all.0.image.url }}">
+  <meta property="og:image:url" content="{{ news.gallery.all.0.image.url }}">
+  <meta property="og:image:secure_url" content="{{ news.gallery.all.0.image.url }}">
+{% endif %}
+  <meta property="article:author" content="https://www.facebook.com/SensorInformativo" />
+  <meta property="article:publisher" content="https://www.facebook.com/SensorInformativo" />
+  <meta property="fb:app_id" content="1179482135399214" />
+{% endblock organic %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/PhotoSwipe/photoswipe.css' %}">
+  <link rel="stylesheet" href="{% static 'css/PhotoSwipe/default-skin.css' %}">
+  <link rel="stylesheet" href="{% static 'css/imperavi.com/redactor.css' %}" />
+{% endblock css %}
+
+{% block content %}
+<main class="news__dtl">
+  <div class="container">
+    <article class="new__dtl matchHeight">
+      <header class="new__header">
+        <div class="new__hdr__title">
+          <h1 class="new__title">{{ news.title }}</h1>
+          <p class="new__category"><a href="#">{{ news.category }}</a></p>
+        </div>
+        <div class="new__hdr__author_date">
+          <p class="new__author">Por: {{ news.author }}</p>
+          <p class="new__date">{{ news.date_published }}</p>
+        </div>
+      </header>
+      <section class="new__media">
+      {% if news.video %}
+        <div class="video__wrapper">
+          <iframe width="560" height="315" src="http://www.youtube.com/embed/{{news.embed}}" frameborder="0" allowfullscreen></iframe>
+        </div>
+      {% else %}
+        <img src="{{ news.cover.url }}" alt="{{ news.slug }}">
+      {% endif %}
+      </section>
+      <section class="new__body" id="new__body">
+        {{ news.body|safe }}
+      </section>
+      <div class="sponsor" id="sponsor" style="width: 100%;">
+        <div id="hdr__sponsor">
+          {% for s in sponsor_one %}
+          <div>
+            <a href="#" target="_blank"></a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <section>
+        <div class="gral__dtl">
+          <h2>Imagenes</h2>
+        </div>
+        <div id="demo-test-gallery" class="demo-gallery">
+          {% for i in news.gallery.all %}
+          <img src="{{ n.image }}" alt="{{ n.slug }}"></a>
+          {% endfor %}
+        </div>
+      </section>
+      <section class="new__footer">
+        <br>
+        <hr>
+        <br>
+        <p class="new_share">Comparte esta nota</p>
+        <br>
+        <div class="sharethis-inline-share-buttons"></div>
+      </section>
+      <section class="new__comments">
+        <h2 class="new__cmt__title">Comentarios</h2>
+        {% if user.is_authenticated %}
+        <div class="new__cmt__form">
+          {% if user.avatar %}
+            <div class="new__cmt__image"><img src="{{user.avatar}}" alt="Photo: {{user.username}}"/></div>
+          {% else %}
+            <div class="new__cmt__image"><div class="no__image"><p>{{user.username}}</p></div></div>
+          {% endif %}
+          <form class="form__comments" id="comment-form" method="post">
+            {% csrf_token %}
+            <div>
+              <textarea name="comment" id="comment" placeholder="Agregue su comentario" required></textarea>
+            </div>
+            <input type="hidden" name="news_id" value="{{ news.id }}">
+            <div>
+              <button class="btn">Comentar</button>
+            </div>
+          </form>
+        </div>
+        {% else %}
+        <div class="new__cmt__form">
+          <h2 class="cmt__title"><a href="{% url 'user:login' %}?next={{ request.path }}">Inicia Sesión</a></h2>
+          <p class="cmt__title__aux">O</p>
+          <h2 class="cmt__title"><a href="{% url 'user:signup' %}?next={{ request.path }}">Registrate</a></h2>
+          <p class="cmt__title__aux">para comentar</p>
+          <div class="cmt__btn"><a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="btn btn--facebook">Facebook</a></div>
+          <hr>
+        </div>
+        {% endif %}
+        <section class="list__comments" id="list-comments">
+        {% for c in news.comments.all  %}
+          <section class="user__comment">
+          {% if c.user.avatar %}
+            <div class="new__cmt__image"><img src="{{c.user.avatar}}" alt="Photo: {{c.user.username}}"/></div>
+          {% else %}
+            <div class="new__cmt__image"><div class="no__image"><p>{{c.user.first_name}}</p></div></div>
+          {% endif %}
+            <div class="user__cmt">
+            <div class="user__cmt__header">
+              <p class="user__cmt__name">{{ c.user.first_name }} {{ c.user.last_name }}</p>
+              <p class="user__cmt__date">Hace: {{ c.created|timesince }}</p>
+            </div>
+              <p class="user__cmt__comment">{{ c.comment|safe }}</p>
+            </div>
+          </section>
+        {% endfor %}
+        </section>
+      </section>
+    </article>
+    {% include '_layouts/sponsors.html' %}
+  </div>
+</main>
+{% endblock content %}
+

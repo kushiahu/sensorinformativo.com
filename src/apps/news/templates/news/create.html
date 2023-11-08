@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Nueva Noticia{% endblock title %}
+
+{% block content %}
+<main class="news__dtl">
+  <div class="container">
+    <section class="gral__forms matchHeight">
+      <h1>Administrar Noticia</h1>
+      {{ form.media }}
+      <form method="post" class="form__gral" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="field">
+          {{ form.title.label_tag }}
+          {{ form.title }}
+          {{ form.title.errors }}
+        </div>
+        <div class="field">
+          <label for="id_body">Contenido de la noticia:</label>
+          {{ form.body }}
+          {{ form.body.errors }}
+        </div>
+        <div class="field_2 pdn--lft">
+          {{ form.author.label_tag }}
+          {{ form.author }}
+          {{ form.author.errors }}
+        </div>
+        <div class="field_2 pdn--rgh">
+          {{ form.category.label_tag }}
+          {{ form.category }}
+          {{ form.category.errors }}
+        </div>
+        <div class="field_2 pdn--lft">
+          {{ form.cover.label_tag }}
+          {{ form.cover }}
+          {{ form.cover.errors }}
+        </div>
+        <div class="field_2 pdn--rgh">
+          {{ form.video.label_tag }}
+          {{ form.video }}
+          {{ form.video.errors }}
+        </div>
+        {% if not is_published %}
+        <div class="field">
+          {{ form.is_task.label_tag }}
+          {{ form.is_task }}
+          {{ form.is_task.errors }}
+        </div>
+        <div class="field_2 pdn--lft">
+          {{ form.date_task.label_tag }}
+          {{ form.date_task }}
+          {{ form.date_task.errors }}
+        </div>
+        <div class="field_2 pdn--rgh">
+          {{ form.hour_task.label_tag }}
+          {{ form.hour_task }}
+          {{ form.hour_task.errors }}
+        </div>
+        {% endif %}
+        <div class="field">
+          <button type="submit" class="btn">Guardar</button>
+        </div>
+      </form>
+      <div class="form__note">
+        <p class="form__note__p">( * ) Son campos obligatorios a llenar</p>
+        <br><br><br><br><br><br><br><br><br><br>
+      </div>
+    </section>
+    {% include '_layouts/pnl_sponsors.html' %}
+  </div>
+</main> 
+{% endblock content %}

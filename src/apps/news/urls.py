@@ -9,6 +9,26 @@ app_name = 'news'
 
 urlpatterns = [
     path(
+        'noticia/<slug:slug>/',
+        views.NewsDetail.as_view(),
+        name='detail_news'
+    ),
+    path(
+        'panel/noticias/',
+        views.NewsPnlList.as_view(),
+        name='admin_news_list'
+    ),
+    path(
+        'panel/noticia/nueva/',
+        views.NewsCreate.as_view(),
+        name='create_news'
+    ),
+    path(
+        'panel/noticia/eliminar/<int:pk>/',
+        views.NewsDelete.as_view(),
+        name='delete_news'
+    ),
+    path(
         'panel/categorias/',
         views.CategoryList.as_view(),
         name='list_categories'

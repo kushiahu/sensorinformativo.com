@@ -25,7 +25,7 @@ class Author(models.Model):
 	slug = models.SlugField(max_length=120, unique=True, editable=False)
 
 	def __str__(self):
-		return f'{self.first_name} {self.larst_name}'
+		return f'{self.first_name} {self.last_name}'
 
 	def save(self, *args, **kwargs):
 		self.slug = slugify(f'{self.first_name} {self.last_name}')
@@ -37,6 +37,7 @@ class News(models.Model):
 	title = models.CharField('Título de la noticia *', max_length=120, unique=True)
 	slug = models.SlugField(max_length=120, unique=True, editable=False)
 	body = models.TextField('Contenido de la noticia *')
+	cover = models.ImageField(upload_to='cover', blank=True, null=True)
 	video = models.URLField('URL video youtube', blank=True, null=True)	
 	category = models.ForeignKey(
 		Category,
@@ -53,6 +54,9 @@ class News(models.Model):
 	views = models.IntegerField(default=0)
 	published = models.BooleanField(default=True)
 	date_published = models.DateTimeField(blank=True, null=True)
+	is_task = models.BooleanField('Programar publicación', default=False)
+	date_task = models.DateField('Día', blank=True, null=True)
+	hour_task = models.TimeField('Hora', blank=True, null=True)
 	created = models.DateTimeField(auto_now_add=True)
 	modified = models.DateTimeField(auto_now=True)
 

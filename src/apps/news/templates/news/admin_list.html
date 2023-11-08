@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{# {% load normalize_timesince %}  #}
+
+{% block title %}Panel de Noticias{% endblock title %}
+
+{% block content %}
+<main class="news__dtl">
+  <div class="container">
+    <section class="panel matchHeight">
+      {% if news_tasks %}
+      <div class="pnl__hdr">
+        <p class="pnl__hdr__info">Tienes {{ news_tasks.count }} noticias programada</p>
+      </div>
+      <div class="pnl__table">
+        <table class="tbl__rd__gral">
+          <thead>
+            <tr>
+              <th>Noticias</th>
+              <th>Autor</th>              
+              <th colspan="2">Fecha programada</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for new in news_tasks %}            
+            <tr>
+              <td class="organisation__name">{{ new.title }}</td>
+              <td class="organisation__author">{{ new.author }}</td>              
+              <td class="organisation__tasks">{{ new.date_task|date:"D, d M Y" }}, {{ new.hour_task|time:"H:i" }}</td>
+              <td class="actions__gral_one"><a href="{% url 'news:edit' new.slug %}" class="tbl__actions">Editar</a> | 
+              <a href="{% url 'news:delete' new.pk %}" class="tbl__actions">Eliminar</a></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>              
+      {% endif %}
+
+      {% if news_inactive %}
+      <div class="pnl__hdr">
+        <p class="pnl__hdr__info">Tienes {{ news_inactive.count }} noticias no publicadas</p>
+      </div>
+      <div class="pnl__table">
+        <table class="tbl__rd__gral">
+          <thead>
+            <tr>
+              <th>Noticias</th>
+              <th colspan="2">Autor</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for new in news_inactive %}            
+            <tr>
+              <td class="organisation__name">{{ new.title }}</td>
+              <td class="organisation__author">{{ new.author }}</td>              
+              <td class="actions__gral_one"><a href="{% url 'news:edit' new.slug %}" class="tbl__actions">Editar</a> | 
+              <a href="{% url 'news:delete' new.pk %}" class="tbl__actions">Eliminar</a></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>        
+      {% endif %}
+
+      <div class="pnl__hdr">
+        <p class="pnl__hdr__info">Tienes {{ total }} noticias publicadas</p>
+        <p class="pnl__hdr__btn"><a href="{% url 'news:create_news' %}" class="btn">Nueva Nota</a></p>
+      </div>
+      <div class="pnl__table">
+        <table class="tbl__rd__gral">
+          <thead>
+            <tr>
+              <th>Hace</th>
+              <th>Noticias</th>
+              <th>Autor</th>
+              <th>Vistas</th>
+              <th colspan="2">Accion</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for news_obj in news %}            
+            <tr>
+              {# <td class="organisation__since" title="{{ news_obj.date_published }}">{{ news_obj.date_published|timesince|nrz:',' }}</td> #}
+              <td class="organisation__since" title="{{ news_obj.date_published }}">{{ news_obj.date_published }}</td>
+              <td class="organisation__name">{{ news_obj.title }}</td>
+              <td class="organisation__author">{{ news_obj.author }}</td>
+              <td class="organisation__views brd__last">{{ news_obj.views }}</td>
+              <td class="actions">
+                {# <a href="{% url 'news:edit' news_obj.slug %}" class="tbl__actions">Editar</a> | #}
+                <a href="{% url 'news:delete_news' news_obj.pk %}" class="tbl__actions">Eliminar</a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if is_paginated %}
+      {% include '_layouts/pagination.html' %}
+      {% endif %}
+    </section>
+    {% include '_layouts/pnl_sponsors.html' %}
+  </div>
+</main>
+{% endblock content %}
