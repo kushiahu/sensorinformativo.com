@@ -1,3 +1,3 @@
 from .category import CategoryForm
 from .author import AuthorForm
-from .news import NewsForm
+from .news import NewsForm, NewsUpdateForm

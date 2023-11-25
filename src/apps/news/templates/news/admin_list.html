@@ -86,7 +86,7 @@
               <td class="organisation__author">{{ news_obj.author }}</td>
               <td class="organisation__views brd__last">{{ news_obj.views }}</td>
               <td class="actions">
-                {# <a href="{% url 'news:edit' news_obj.slug %}" class="tbl__actions">Editar</a> | #}
+                <a href="{% url 'news:update_news' news_obj.slug %}" class="tbl__actions">Editar</a> |
                 <a href="{% url 'news:delete_news' news_obj.pk %}" class="tbl__actions">Eliminar</a>
               </td>
             </tr>

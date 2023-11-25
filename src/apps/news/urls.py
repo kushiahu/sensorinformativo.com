@@ -24,9 +24,19 @@ urlpatterns = [
         name='create_news'
     ),
     path(
+        'panel/noticia/editar/<slug:slug>/',
+        views.NewsUpdate.as_view(),
+        name='update_news'
+    ),
+    path(
         'panel/noticia/eliminar/<int:pk>/',
         views.NewsDelete.as_view(),
         name='delete_news'
+    ),
+    path(
+        'panel/imagen/eliminar/<int:pk>/<slug:slug>/',
+        views.ImageDelete.as_view(),
+        name='delete_image'
     ),
     path(
         'panel/categorias/',

@@ -27,3 +27,13 @@ class NewsForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(NewsForm, self).__init__(*args, **kwargs)
 		self.fields['images'].widget.attrs.update({'accept': 'image/*', 'multiple': 'multiple'})
+
+
+class NewsUpdateForm(NewsForm):
+	images = forms.ImageField(
+		label='Imagenes',
+		required=False, 
+		widget=forms.ClearableFileInput(
+			attrs={'allow_multiple_selected': True}
+		)
+	)
