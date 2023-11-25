@@ -69,3 +69,13 @@ class News(models.Model):
 
 	class Meta:
 		ordering = ["-date_published"]
+
+
+class Gallery(models.Model):
+
+	image = models.ImageField(upload_to='noticias')
+	news =  models.ForeignKey(News, related_name='gallery', on_delete=models.CASCADE)
+
+	def delete(self, *args, **kwargs):
+		self.image.delete(save=True)
+		super(Gallery, self).delete(*args, **kwargs)

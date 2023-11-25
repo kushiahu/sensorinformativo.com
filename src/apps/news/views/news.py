@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 # Models
-from apps.news.models import News
+from apps.news.models import News, Gallery
 
 # Form
 from apps.news.forms import NewsForm
@@ -42,18 +42,11 @@ class NewsCreate(CreateView):
 	def form_valid(self, form):
 		self.object = form.save()
 		self.object.date_published = datetime.datetime.now()
-		# if self.object.is_task:
-		# 	self.object.published = False
-		# if self.object.video:
-		# 	self.object.embed = self.object.video.split('?v=')[1]
-		self.object.save()
-		# for each in form.cleaned_data['images']:
-		# 	Gallery.objects.create(image=each, news=self.object)
-		# set_wm_image(self.object)
-		# if self.object.published:
-		# 	#elay(self.object), #post_object
-		# 	post_twitter.delay(self.object)
-		# 	post_instagram.delay(self.object)
+		images = self.request.FILES.getlist('images')
+		for image in images:
+			Gallery.objects.create(image=image, news=self.object)
+		cover = self.object.gallery.first()
+		self.object.cover = cover.image
 		return super(NewsCreate, self).form_valid(form)
 
 
