@@ -41,6 +41,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'froala_editor',
+    'storages',
 ]
 
 LOCAL_APPS = [
@@ -142,7 +143,7 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -150,3 +151,28 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = 'redis://redis:6379/0'
+
+# Used to authenticate with S3
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+
+# Configure which endpoint to send files to, and retrieve files from.
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME')
+AWS_S3_ENDPOINT_URL = "https://%s.digitaloceanspaces.com" % (AWS_S3_REGION_NAME)
+AWS_S3_CUSTOM_DOMAIN = "%s.%s.digitaloceanspaces.com" % (AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME)
+AWS_DEFAULT_ACL = None # siles the error: The default behavior of S3Boto3Storage is insecure and will change
+
+# General optimization for faster delivery
+
+# AWS_IS_GZIPPED = True
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+# Media files (Images, xls, word, pdf, etc...)
+
+AWS_PUBLIC_MEDIA_LOCATION = 'media'
+DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaS3Storage'
+MEDIA_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_PUBLIC_MEDIA_LOCATION)
+MEDIA_ROOT = MEDIA_URL
