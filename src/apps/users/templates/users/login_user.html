@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio de Sesión{% endblock title %}
+
+{% block content %}
+<main class="news__dtl">
+  <div class="container">
+    <section class="gral__forms matchHeight">
+      <h1>Inicio de Sesión</h1>
+      <div>
+        {% if form.errors %}
+          {% for field in form %}
+              {% for error in field.errors %}
+                  <div class="alert alert-error">
+                      <strong>{{ error|escape }}</strong>
+                  </div>
+              {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+              <div class="alert alert-error">
+                  <strong>{{ error|escape }}</strong>
+              </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <form class="form__gral frm__loggin" method="post">
+        {% csrf_token %}
+        <div class="field">
+          {{ form.username.label_tag }}
+          {{ form.username }}
+          {{ form.username.errors }}
+        </div>
+        <div class="field">
+          {{ form.password.label_tag }}
+          {{ form.password }}
+          {{ form.password.errors }}
+        </div>
+        <div class="field">
+          <button type="submit" class="btn">Entrar</button>
+        </div>
+        <!--<p class="frm__link"><a href="#">Olvide mi contraseña</a></p>-->
+      </form>
+    </section>
+  </div>
+</main> 
+{% endblock content %}

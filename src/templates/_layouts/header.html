@@ -12,7 +12,11 @@
       </nav>
       <nav class="hdr__top__login">
         <ul class="hdr__top__list">
-          <li><a href="#"><i class="icon-user"></i>Login</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'user:logout' %}"><i class="icon-user"></i>Salir</a></li>
+          {% else %}
+            <li><a href="{% url 'user:login' %}"><i class="icon-user"></i>Login</a></li>
+          {% endif %}
         </ul>
       </nav>
     </div>

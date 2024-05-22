@@ -1,7 +1,9 @@
 import datetime
 
 # Django
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView, View
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import DeletionMixin
@@ -18,13 +20,13 @@ class NewsDetail(DetailView):
 	template_name = 'news/detail.html'
 
 
-class NewsPnlList(ListView):
+class NewsPnlList(LoginRequiredMixin, ListView):
 	context_object_name = 'news'
 	queryset = News.objects.filter(published=True).order_by('-date_published')
 	template_name = 'news/admin_list.html'
-	# login_url = reverse_lazy('user:login')
-	# permission_required = "news.add_news"
-	# paginate_by = 10
+	login_url = reverse_lazy('user:login')
+	permission_required = "news.add_news"
+	paginate_by = 10
 
 	def get_context_data(self, **kwargs):
 		context = super(NewsPnlList, self).get_context_data(**kwargs)
@@ -34,12 +36,12 @@ class NewsPnlList(ListView):
 		return context
 
 
-class NewsCreate(CreateView):
+class NewsCreate(LoginRequiredMixin, CreateView):
 	form_class = NewsForm
 	success_url = reverse_lazy('news:admin_news_list')
 	template_name = 'news/create.html'
-	# login_url = reverse_lazy('user:login')
-	# permission_required = "news.add_news"
+	login_url = reverse_lazy('user:login')
+	permission_required = "news.add_news"
 
 	def form_valid(self, form):
 		self.object = form.save()
@@ -52,13 +54,13 @@ class NewsCreate(CreateView):
 		return super(NewsCreate, self).form_valid(form)
 
 
-class NewsUpdate(UpdateView):
+class NewsUpdate(LoginRequiredMixin, UpdateView):
 	form_class = NewsUpdateForm
 	model = News
 	success_url = reverse_lazy('news:admin_news_list')
 	template_name = 'news/update.html'
-	# login_url = reverse_lazy('user:login')
-	# permission_required = "news.change_news"
+	login_url = reverse_lazy('user:login')
+	permission_required = "news.change_news"
 
 	def form_valid(self, form):
 		self.object = form.save()
@@ -79,16 +81,16 @@ class NewsUpdate(UpdateView):
 		return context
 
 
-class NewsDelete(DeleteView):
+class NewsDelete(LoginRequiredMixin, DeleteView):
 	model = News
 	template_name = 'news/delete.html'
 	success_url = reverse_lazy('news:admin_news_list')
 
 
 class ImageDelete(DeletionMixin, SingleObjectMixin, View):
-	# login_url = reverse_lazy('user:login')
+	login_url = reverse_lazy('user:login')
 	model = Gallery
-	# permission_required = "news.delete_news"
+	permission_required = "news.delete_news"
 	pk_url_kwarg = "pk"
 
 	def get(self, *args, **kwargs):

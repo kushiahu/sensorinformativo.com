@@ -26,6 +26,25 @@
         </article>
       {% endfor %}
       </section>
+      {% if news.has_other_pages %}
+        <div class="pagination">
+            {% if news.has_previous %}
+                <a href="?page=1">&laquo; Primera</a>
+                <a href="?page={{ news.previous_page_number }}">Anterior</a>
+            {% endif %}
+            {% for num in news.paginator.page_range %}
+                {% if news.number == num %}
+                    <span class="current">{{ num }}</span>
+                {% else %}
+                    <a href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if news.has_next %}
+                <a href="?page={{ news.next_page_number }}">Siguiente</a>
+                <a href="?page={{ news.paginator.num_pages }}">Última &raquo;</a>
+            {% endif %}
+        </div>
+    {% endif %}
     </section>
     {% include '_layouts/sponsors.html' %}
   </div>
