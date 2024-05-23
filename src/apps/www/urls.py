@@ -9,4 +9,5 @@ app_name = 'site'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('celery/', views.testing_celery, name='testing'),
 ]
