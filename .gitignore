@@ -23,7 +23,6 @@ virtualenv
 *.sublime-project
 *.sublime-workspace
 media/
-static/
 public/
 CACHE/
 data/
